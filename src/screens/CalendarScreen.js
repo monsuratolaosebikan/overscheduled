@@ -11,14 +11,6 @@ import {
 export default class CalenderScreen extends Component {
     static navigationOptions = {
         title: 'Calendar',
-        header: {
-            left: (<Button title="Tasks"
-                           onPress={() => this.props.navigation.navigate('Task')}
-            ></Button>),
-            right: (<Button title="Add"
-                            onPress={() => this.props.navigation.navigate('Add')}
-            ></Button>)
-        }
     };
 
     render() {

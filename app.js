@@ -16,7 +16,7 @@ class Home extends Component {
         super(props);
         console.log(props);
         this.state = {
-            current: 'task'
+            current: 'calendar'
         };
     }
      static navigationOptions = {
