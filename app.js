@@ -1,7 +1,4 @@
 import React, { Component } from 'react';
-import CalendarScreen from './src/screens/CalendarScreen';
-import AddScreen from './src/screens/AddScreen';
-import TaskScreen from './src/screens/TaskScreen';
 import { StackNavigator } from 'react-navigation';
 import {
     AppRegistry,
@@ -10,6 +7,10 @@ import {
     View,
     Button
 } from 'react-native';
+
+import CalendarScreen from './src/screens/Calendar';
+import AddScreen from './src/screens/Add';
+import TaskScreen from './src/screens/Events';
 
 class Home extends Component {
     constructor(props) {

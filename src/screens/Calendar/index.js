@@ -4,7 +4,7 @@ import { connect } from 'react-redux'
 import { Button, View, Text } from 'react-native';
 
 import styles from './styles';
-import { actions } from './ducks';
+import * as actions from '../../redux/calendar';
 
 const mapActionsToProps = R.pluck(['increment', 'decrement'])(actions);
 
