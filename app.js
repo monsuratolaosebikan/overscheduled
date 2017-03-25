@@ -52,28 +52,3 @@ const overscheduled = StackNavigator({
 
 
  AppRegistry.registerComponent('overscheduled', () => overscheduled);
-
-
-
-/*class App extends Component {
-    render() {
-        return <Root />;
-    }
-}
-
-const Root = StackNavigator({
-    Calendar: {
-        screen: CalendarStack,
-    },
-    Tasks: {
-        screen: TasksStack,
-    },
-}, {
-    mode: 'modal',
-    headerMode: 'none',
-});
-
-
-AppRegistry.registerComponent('overscheduled', () => App);
-
-    */
