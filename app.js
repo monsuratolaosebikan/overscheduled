@@ -14,25 +14,28 @@ import {
 class Home extends Component {
     constructor(props) {
         super(props);
+        console.log(props);
         this.state = {
             current: 'task'
         };
     }
-    static navigationOptions = {
-        title: 'Home',
-        header: {
-            left: (<Button title="Tasks"
-                          onPress={() => this.props.navigation.navigate('Task')}
-                  ></Button>),
-            right: (<Button title="Add"
-                           onPress={() => this.props.navigation.navigate('Add')}
-                   ></Button>)
+     static navigationOptions = {
+        title(x) {
+            console.log(x);
+            return 'home';
+        },
+        header(x) {
+            console.log(x);
+            return {
+                left: <Button title="Tasks" onPress={() => x.navigate('Task')}></Button>,
+                right:<Button title="Add" onPress={() => x.navigate('Add')}></Button>
+            }
         }
     };
 
     render() {
         return (
-            <View style={styles.container}>
+            <View>
                 {this.state.current === 'calendar' ? <CalendarScreen/> : <TaskScreen/>}
             </View>
 
@@ -47,23 +50,30 @@ const overscheduled = StackNavigator({
     Add: { screen: AddScreen },
 });
 
-const styles = StyleSheet.create({
-    container: {
-        flex: 1,
-        justifyContent: 'center',
-        alignItems: 'center',
-        backgroundColor: '#F5FCFF',
+
+ AppRegistry.registerComponent('overscheduled', () => overscheduled);
+
+
+
+/*class App extends Component {
+    render() {
+        return <Root />;
+    }
+}
+
+const Root = StackNavigator({
+    Calendar: {
+        screen: CalendarStack,
     },
-    welcome: {
-        fontSize: 20,
-        textAlign: 'center',
-        margin: 10,
+    Tasks: {
+        screen: TasksStack,
     },
-    instructions: {
-        textAlign: 'center',
-        color: '#333333',
-        marginBottom: 5,
-    },
+}, {
+    mode: 'modal',
+    headerMode: 'none',
 });
 
-AppRegistry.registerComponent('overscheduled', () => overscheduled);
+
+AppRegistry.registerComponent('overscheduled', () => App);
+
+    */
