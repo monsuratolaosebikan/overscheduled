@@ -1,0 +1,24 @@
+{
+  "env": {
+    "browser": true,
+    "node": true,
+    "es6": true
+  },
+  "parser": "babel-eslint",
+  "parserOptions": {,
+    "sourceType": "module",
+    "ecmaFeatures": {
+        "classes": true,
+        "jsx": true,
+        "experimentalObjectRestSpread": true
+    }
+  },
+  "rules": {
+    "no-undef": 2,
+    "space-before-blocks": [2, "always"]
+  },
+  "plugins": [
+    "react",
+    "react-native"
+  ]
+}
