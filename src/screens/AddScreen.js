@@ -7,9 +7,9 @@ import {
 } from 'react-native';
 export default class AddScreen extends Component {
     static navigationOptions = {
-        title: 'Welcome',
+        title: 'Add',
     };
     render() {
-        return <Text>Hello, Navigation!</Text>;
+        return <Text>Hello, Add!</Text>;
     }
 }

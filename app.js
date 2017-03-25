@@ -12,22 +12,28 @@ import {
 } from 'react-native';
 
 class Home extends Component {
+    constructor(props) {
+        super(props);
+        this.state = {
+            current: 'task'
+        };
+    }
     static navigationOptions = {
-        title: 'Calendar',
+        title: 'Home',
         header: {
-            left: <Button title="Tasks"></Button>,
-            right: <Button title="Add"></Button>
+            left: (<Button title="Tasks"
+                          onPress={() => this.props.navigation.navigate('Task')}
+                  ></Button>),
+            right: (<Button title="Add"
+                           onPress={() => this.props.navigation.navigate('Add')}
+                   ></Button>)
         }
-
     };
-
 
     render() {
         return (
-
             <View style={styles.container}>
-
-                <CalendarScreen/>
+                {this.state.current === 'calendar' ? <CalendarScreen/> : <TaskScreen/>}
             </View>
 
         );
@@ -35,9 +41,10 @@ class Home extends Component {
 }
 
 
+
 const overscheduled = StackNavigator({
-    Home: {screen: Home},
-    Add: { screen: AddScreen }
+    Home: { screen: Home },
+    Add: { screen: AddScreen },
 });
 
 const styles = StyleSheet.create({
