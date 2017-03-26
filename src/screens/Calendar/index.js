@@ -34,4 +34,4 @@ function Counter({ decrement, increment, value }) {
 
 Counter.navigationOptions = {}
 
-export default connect(mapStateToProps, mapActionsToProps)(Counter)
+export default connect()(Counter)

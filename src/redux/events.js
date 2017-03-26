@@ -10,7 +10,7 @@ const SUBMIT_EVENT = 'events/submit-event'
 
 
 // Initial State
-const initalState = {
+const initialState = {
   234234234: {
     name: 'Blah Deadline',
     time_block: false,

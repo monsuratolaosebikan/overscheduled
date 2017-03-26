@@ -2,7 +2,9 @@ import { AsyncStorage } from "react-native"
 import { createStore, applyMiddleware, compose, combineReducers } from 'redux'
 import thunkMiddleware from 'redux-thunk'
 
-import { reducers } from './screens'
+import appReducer from './redux/app';
+import calendarReducer from './redux/calendar';
+import eventsReducer from './redux/events';
 
 function saveMiddleware({ getState }) {
   return next => action => {
@@ -14,19 +16,19 @@ function saveMiddleware({ getState }) {
   }
 }
 
-const enhancer = compose(
+export const getStore = AsyncStorage.getItem('completeStore') //.then((value)=>{ })
+
+const store = createStore(
+  combineReducers({
+    app: appReducer,
+    events: eventsReducer,
+    calendar: calendarReducer
+  }),
   applyMiddleware(
     saveMiddleware,
     thunkMiddleware
   )
 )
 
-export const getStore = AsyncStorage.getItem('completeStore') //.then((value)=>{ })
 
-export default function configureStore(initialState) {
-  return createStore(
-    combineReducers({ ...reducers }),
-    initialState,
-    enhancer
-  )
-}
+export default store;
