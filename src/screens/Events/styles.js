@@ -17,4 +17,7 @@ export default StyleSheet.create({
       borderBottomColor: 'white',
       borderBottomWidth: 10
   },
+    item: {
+      height: 40
+    }
 });

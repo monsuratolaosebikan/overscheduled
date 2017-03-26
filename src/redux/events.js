@@ -11,7 +11,7 @@ const SUBMIT_EVENT = 'events/submit-event'
 
 // Initial State
 const initialState = {
-  234234234: {
+  /*234234234: {
     name: 'Blah Deadline',
     time_block: false,
     priority: 1,
@@ -23,9 +23,9 @@ const initialState = {
     priority: 2,
     time_block: true,
     start: 'utc',
-    end: 'utc' 
-  }
-}
+    end: 'utc'
+  }*/
+};
 
 
 // Reducer

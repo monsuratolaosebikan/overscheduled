@@ -1,7 +1,16 @@
 import R from 'ramda'
 import React, { Component } from 'react';
-import { Text, View, TextInput, StyleSheet, Picker, TouchableOpacity, Button } from 'react-native';
+import {  ScrollView, View, TextInput, StyleSheet, Picker, TouchableOpacity} from 'react-native';
 import DateTimePicker from 'react-native-modal-datetime-picker';
+import {
+    FormLabel,
+    FormInput,
+    CheckBox,
+    Button,
+    Text
+} from 'react-native-elements'
+import Icon from 'react-native-vector-icons/MaterialIcons'
+
 import { connect } from 'react-redux'
 import moment from 'moment'
 
@@ -9,7 +18,7 @@ import styles from './styles'
 import * as actionCreators from '../../redux/events'
 import { shuffle } from '../../redux/app'
 
-const mapStateToProps = ({state}) => ({})
+const mapStateToProps = ({state}) => ({});
 const mapActionsToProps = R.assoc('shuffle', shuffle, R.pick(['submitEvent'])(actionCreators))
 
 export default connect(null, mapActionsToProps)(
@@ -20,71 +29,108 @@ class AddScreen extends Component {
 
   constructor(props) {
     super(props);
-    console.log('add', this.props)
+    console.log('add', this.props);
     this.state = {
-      name: 'lol',
-      priority: 3,
+      name: null,
       timeBlock: false,
       timeEstimate: null,
       completed: false,
       deadline: new Date().toDateString(),
+      startTime: null,
+      endTime: null,
       isDateTimePickerVisible: false,
-
     }
-  }
-
-  _showDateTimePicker = () => this.setState({ isDateTimePickerVisible: true });
-
-  _hideDateTimePicker = () => this.setState({ isDateTimePickerVisible: false });
-
-  _handleDatePicked = (date) => {
-    console.log('A date has been picked: ', date);
-    this.setState({ deadline: new Date(date).toDateString() });
-    this._hideDateTimePicker();
-  };
-
-  submit() {
-    this.props.submitEvent(this.state);
-    this.props.shuffle();
-    this.props.navigation.goBack();
   }
 
   render() {
     return (
-      <View style={{padding: 10}}>
-          <Text style={styles.label}>Name</Text>
-          <TextInput
-              style={styles.input}
-              value={this.state.name}
-              onChangeText={(name) => this.setState({name})}
-          />
-          <Text style={styles.label}>Priority</Text>
-          <Picker
-              selectedValue={this.state.priority}
-              onValueChange={(priority) => this.setState({priority})}>
-              <Picker.Item label="High" value={1} />
-              <Picker.Item label="Medium" value={2} />
-              <Picker.Item label="Low" value={3} />
-          </Picker>
-          <Text style={styles.label}>Start Time</Text>
-          <Text style={styles.label}>End Time</Text>
-          <Text style={styles.label}>Time Estimate</Text>
-          <Text style={styles.label}>Deadline</Text>
-              <TouchableOpacity onPress={this._showDateTimePicker}>
-                  <Text>{this.state.deadline}</Text>
-              </TouchableOpacity>
-              <DateTimePicker
-                  isVisible={this.state.isDateTimePickerVisible}
-                  onConfirm={this._handleDatePicked}
-                  onCancel={this._hideDateTimePicker}
-                  mode="time"
-              />
-
-          <Text style={styles.label}>Flexible</Text>
-          <Button title="Submit" onPress={() => this.submit()} ></Button>
-
-
-      </View>
+        <ScrollView style={{backgroundColor: 'white', flex:1}} keyboardShouldPersistTaps="always">
+            <FormLabel
+                containerStyle={styles.labelContainerStyle}>Name</FormLabel>
+            <FormInput onChangeText={(name) => this.setState({name})}/>
+            <CheckBox
+                title='Flexible'
+                checked={this.state.timeBlock}
+                onPress={() => this.changeFlexibleStatus()}
+            />
+            <FormLabel containerStyle={styles.labelContainerStyle}>Start Time</FormLabel>
+            <TouchableOpacity onPress={this.showStartTimePicker}>
+                <Text style={styles.dateTime}>{this.state.startTime ? moment(this.state.startTime).format("h:mm a") : 'Select start time'}</Text>
+            </TouchableOpacity>
+            <DateTimePicker
+                isVisible={this.state.isStartTimePickerVisible}
+                onConfirm={this.handleStartTimePicked}
+                onCancel={this.hideStartTimePicker}
+                mode="time"
+            />
+            <FormLabel containerStyle={styles.labelContainerStyle}>End Time</FormLabel>
+            <TouchableOpacity onPress={this.showEndTimePicker}>
+                <Text style={styles.dateTime}>{this.state.endTime ? moment(this.state.endTime).format("h:mm a") : 'Select end time'}</Text>
+            </TouchableOpacity>
+            <DateTimePicker
+                isVisible={this.state.isEndTimePickerVisible}
+                onConfirm={this.handleEndTimePicked}
+                onCancel={this.hideEndTimePicker}
+                mode="time"
+            />
+            <FormLabel containerStyle={styles.labelContainerStyle}>Time Estimate</FormLabel>
+            <FormInput onChangeText={(timeEstimate) => this.setState({timeEstimate})}/>
+            <FormLabel containerStyle={styles.labelContainerStyle}>Date or Deadline</FormLabel>
+            <TouchableOpacity onPress={this.showDeadlineDatePicker}>
+                <Text style={styles.dateTime}>{this.state.deadline? moment(this.state.deadline).format("ddd, MMMM Do YYYY"): 'Select date'}</Text>
+            </TouchableOpacity>
+            <DateTimePicker
+                isVisible={this.state.isDeadlineDatePickerVisible}
+                onConfirm={this.handleDeadlineDatePicked}
+                onCancel={this.hideDeadlineDatePicker}
+                mode="date"
+            />
+            <Button
+                onPress={() => this.submit()}
+                buttonStyle={{marginTop: 15}}
+                title='SUBMIT' />
+        </ScrollView>
     )
   }
+
+  changeFlexibleStatus() {
+      let status = this.state.timeBlock;
+      this.setState({timeBlock:!status});
+  }
+
+    submit() {
+        this.props.submitEvent(this.state);
+        this.props.shuffle();
+        this.props.navigation.goBack();
+    }
+
+    showStartTimePicker = () => this.setState({ isStartTimePickerVisible: true });
+
+    hideStartTimePicker = () => this.setState({ isStartTimePickerVisible: false });
+
+    handleStartTimePicked = (date) => {
+        this.setState({ startTime: new Date(date) });
+        this.hideStartTimePicker();
+    };
+
+    showEndTimePicker = () => this.setState({ isEndTimePickerVisible: true });
+
+    hideEndTimePicker = () => this.setState({ isEndTimePickerVisible: false });
+
+    handleEndTimePicked = (date) => {
+        this.setState({ endTime: new Date(date) });
+        this.hideEndTimePicker();
+    };
+
+    showDeadlineDatePicker = () => this.setState({ isDeadlineDatePickerVisible: true });
+
+    hideDeadlineDatePicker = () => this.setState({ isDeadlineDatePickerVisible: false });
+
+    handleDeadlineDatePicked = (date) => {
+        this.setState({ deadline: new Date(date) });
+        this.hideDeadlineDatePicker();
+    };
+
 })
+
+

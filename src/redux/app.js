@@ -21,11 +21,11 @@ const SCHEDULE_FAILED = 'app/schedule-failed'
 // Initial State
 const initialState = {
   view: 'cal',
-  past: [ { id: '234234234', start: 'utc'  } ],
-  present: { id: '454545454', start: 'utc'  },
-  future: [ ],
+  past: [ /*{ id: '234234234', start: 'utc'  }*/ ],
+  present: { name: 'present test',id: '454545454', start: 'utc' },
+  future: [],
   unscheduled: []
-}
+};
 
 // Reducer
 export default function reducer(state = initialState, action = {}) {
