@@ -1,10 +1,11 @@
 import R from 'ramda';
+import moment from 'moment'
 
 
 // Actions
-const EDIT_EVENT = 'events/edit-event'
-const CANCEL_EDIT = 'events/cancel-edit'
-// TODO: ^ router stuff
+// const EDIT_EVENT = 'events/edit-event'
+// const CANCEL_EDIT = 'events/cancel-edit'
+// router stuff
 
 const DELETE_EVENT = 'events/delete-event'
 const SUBMIT_EVENT = 'events/submit-event'
@@ -13,19 +14,21 @@ const SUBMIT_EVENT = 'events/submit-event'
 // Initial State
 const initialState = {
   111: {
+    id: '111',
     name: 'Blah Deadline',
-    time_block: false,
+    flexible: true,
     priority: 1,
-    deadline: 'utc',
-    time_est: 400000
+    deadline: moment().subtract(1, 'd').toDate(),
+    estimatedTime: 4
   },
-  // 454545454: {
-  //   name: 'Blah Block',
-  //   priority: 2,
-  //   time_block: true,
-  //   start: 'utc',
-  //   end: 'utc'
-  // }
+  222: {
+    id: '222',
+    name: 'Blah Block',
+    priority: 2,
+    flexible: true,
+    deadline: moment().add(5, 'h').toDate(),
+    estimatedTime: 2
+  }
 };
 
 
