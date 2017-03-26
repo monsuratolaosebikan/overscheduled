@@ -1,5 +1,6 @@
 import { AsyncStorage } from "react-native"
 import { createStore, applyMiddleware, compose, combineReducers } from 'redux'
+import logger from 'redux-logger'
 import thunkMiddleware from 'redux-thunk'
 
 import appReducer from './redux/app';
@@ -26,7 +27,8 @@ const store = createStore(
   }),
   applyMiddleware(
     saveMiddleware,
-    thunkMiddleware
+    thunkMiddleware,
+    logger
   )
 )
 
