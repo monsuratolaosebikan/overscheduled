@@ -32,13 +32,12 @@ var schedule = [
     
 ];
 
-console.log(scheduling(schedule));
+console.log(scheduling(schedule,calendar));
 
     
-function hasConflict(item) {
+function hasConflict(item, cal) {
     var hasConflict = false;
-    calendar.forEach(function(i, index){
-        //var start = item.deadline - item.estimatedTime;
+    cal.forEach(function(i, index){
         var start = moment(item.deadline).subtract(item.estimatedTime,'hours');
         if (((start > i.startTime) && (start < i.endTime)) ||
             ((i.startTime > start) && (i.endTime < item.deadline)))
@@ -48,10 +47,9 @@ function hasConflict(item) {
     return hasConflict;
 }
     
-function getConflictEvent(item) {
+function getConflictEvent(item, cal) {
     var conflictedEvent = null;
-    calendar.forEach(function(i, index) {
-        //var start = item.deadline - item.estimatedTime;
+    cal.forEach(function(i, index) {
         var start = moment(item.deadline).subtract(item.estimatedTime,'hours');
         if (((start > i.startTime) && (start < i.endTime)) ||
             ((i.startTime > start) && (i.endTime < item.deadline)))
@@ -61,27 +59,24 @@ function getConflictEvent(item) {
                 
             }
             });
-    console.log(conflictedEvent);
     return conflictedEvent;
 }
     
 
-function scheduling(list_of_items) {
+function scheduling(list_of_items, cal) {
     var flexibleTasks=[];
     list_of_items.forEach(function(task, i) {
         if (task.flexible === false) {
-            addToCalendar(task.name, moment(task.startTime), moment(task.endTime));
+            addToCalendar(task.name, moment(task.startTime), moment(task.endTime),cal);
         } else {
             flexibleTasks.push(task);
         }
     });
     
     flexibleTasks.forEach(function(task, i) {
-        while (hasConflict(task)) {
-            var conflictedTask = getConflictEvent(task);
-            //var newDeadline = conflictedTask.deadline - conflictedTask.estimatedTime;
+        while (hasConflict(task,cal)) {
+            var conflictedTask = getConflictEvent(task, cal);
             var newDeadline = moment(conflictedTask.deadline).subtract(conflictedTask.estimatedTime,'hours');
-            //if (newDeadline < Date()) {
             if (newDeadline < moment()) {
                 alert("You're FLUFED! :P");
                 return;
@@ -89,57 +84,26 @@ function scheduling(list_of_items) {
             task.deadline = new Date(newDeadline);
         }
         // conflict resolved
-        //addToCalendar(task.name, task.deadline - task.estimatedTime, task.deadline);
         addToCalendar(task.name,
                       moment(task.deadline).subtract(task.estimatedTime,'hours'), 
-                      moment(task.deadline));
+                      moment(task.deadline),
+                      cal);
     });
     
-    calendar = calendar.map(function(x){
+    return cal.map(function(x){
             return {
             name: x.name,
             startTime: x.startTime.toDate(),
             endTime: x.endTime.toDate()};    
     });
     
-    return calendar;
+
 }
 
-function addToCalendar(name, startTime, endTime) {
-    calendar.push({
+function addToCalendar(name, startTime, endTime, cal) {
+        cal.push({
         name: name,
         startTime: startTime,
         endTime: endTime
     });
 }
-
-
-
-//psuedo-code:
-//
-//function schedule(list) {
-//    var flexible = [];
-//   for each task in list {
-//       if(task.flexible === false) {
-//           addToCalendar(task);
-//       }
-//       else {
-//           flexible.push(task)
-//       }
-//   }
-//    for task in flexible {
-//        if (date < today) {
-//            return "overschduled";
-//        } else {
-//           while (hasConflict(item)) {
-//               item.endTime = getConflictEvent(item).startTime;
-//           }
-//                    addToCalendar();
-//        }
-//    }
-//    return calendar || 'overscheduled'
-//}
-
-
-
-
