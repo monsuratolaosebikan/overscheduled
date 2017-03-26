@@ -39,7 +39,7 @@ export default function reducer(state = initialState, action = {}) {
 
 // Action Creators
 export function submitEvent(eventObject) {
-  eventObject.id = eventObject.id || +new Date();
+  eventObject.id = eventObject.id || String(Date.now());
   
   return { type: SUBMIT_EVENT, payload: eventObject }
 }

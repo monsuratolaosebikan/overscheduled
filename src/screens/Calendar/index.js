@@ -17,17 +17,9 @@ const mapStateToProps = (state) => ({
 function Counter({ decrement, increment, value }) {
   return (
     <View style={styles.container}>
-      <Button
-        onPress={decrement}
-        title="-"
-        accessibilityLabel="Decrease counter value"
-      />
+      
       <Text style={styles.value}>{value}</Text>
-      <Button
-        onPress={increment}
-        title="+"
-        accessibilityLabel="Increase counter value"
-      />
+
     </View>
   )
 }

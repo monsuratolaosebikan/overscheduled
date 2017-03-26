@@ -1,11 +1,12 @@
 import R from 'ramda';
 
-function schedulizerStub(events) {
+function schedulizerStub(events, {past, present, future}) {
+  let pastIds = past.map(obj => obj.id);
   return {
     scheduable: true,
-    schedule: [
-      { id: 1, name: 'Blah Deadline', start: 'x', end: 'x' }
-    ]
+    schedule: Object.keys(events)
+      .filter(id => id !== present.id && !pastIds.includes(id))
+      .map(id => ({ id, name: events[id].name, start: 'x', end: 'y' })) 
   }
 }
 
@@ -20,10 +21,10 @@ const SCHEDULE_FAILED = 'app/schedule-failed'
 // Initial State
 const initialState = {
   view: 'cal',
-  past_schedule: [ { id: 234234234, start: 'utc'  } ],
-  active_event: { id: 454545454, start: 'utc'  },
-  generated_schedule: [ {} ],
-  unscheduled_events: []
+  past: [ { id: '234234234', start: 'utc'  } ],
+  present: { id: '454545454', start: 'utc'  },
+  future: [ ],
+  unscheduled: []
 }
 
 // Reducer
@@ -31,9 +32,9 @@ export default function reducer(state = initialState, action = {}) {
   switch (action.type) {
     case SET_ACTIVE_EVENT: return { 
       ...state, 
-      past_schedule: state.past_schedule.concat(state.active_event),
-      active_event: state.generated_schedule[state.generated_schedule.length],
-      generated_schedule: state.generated_schedule.slice(0, -1)
+      past: state.past.concat(state.present),
+      present: state.future[state.future.length],
+      future: state.future.slice(0, -1)
     }
     case TOGGLE_LIST_OR_CAL: return {
       ...state,
@@ -41,13 +42,13 @@ export default function reducer(state = initialState, action = {}) {
     }
     case SCHEDULE_COMPLETE: return {
       ...state,
-      generated_schedule: action.payload.generated_schedule,
-      unscheduled_events: []
+      future: action.payload.schedule,
+      unscheduled: []
     }
     case SCHEDULE_FAILED: return {
       ...state,
       view: 'overscheduled',
-      unscheduled_events: action.payload.unscheduled_events
+      unscheduled: action.payload.unscheduled
     }
     default: return state;
   }
@@ -58,7 +59,7 @@ export function shuffle() {
   // Yeah i know this doesn't have to be async. So's your mum.
   return (dispatch, getState) => {
     let state = getState();
-    let result = schedulizerStub(state.events)
+    let result = schedulizerStub(state.events, R.pick(['past', 'present', 'future'], state.app))
     
     if (result.scheduable) {
       dispatch({ type: SCHEDULE_COMPLETE, payload: result })

@@ -7,12 +7,12 @@ import moment from 'moment'
 
 import styles from './styles'
 import * as actionCreators from '../../redux/events'
+import { shuffle } from '../../redux/app'
 
-const mapStateToProps = ({state}) => ({
-  
-})
+const mapStateToProps = ({state}) => ({})
+const mapActionsToProps = R.assoc('shuffle', shuffle, R.pick(['submitEvent'])(actionCreators))
 
-export default connect(null, R.pick(['submitEvent'])(actionCreators))(
+export default connect(null, mapActionsToProps)(
 class AddScreen extends Component {
   static navigationOptions = {
     title: 'New Task',
@@ -20,6 +20,7 @@ class AddScreen extends Component {
 
   constructor(props) {
     super(props);
+    console.log('add', this.props)
     this.state = {
       name: 'lol',
       priority: 3,
@@ -42,6 +43,11 @@ class AddScreen extends Component {
     this._hideDateTimePicker();
   };
 
+  submit() {
+    this.props.submitEvent(this.state);
+    this.props.shuffle();
+    this.props.navigation.goBack();
+  }
 
   render() {
     return (
@@ -75,7 +81,7 @@ class AddScreen extends Component {
               />
 
           <Text style={styles.label}>Flexible</Text>
-          <Button title="Submit" onPress={() => this.props.submitEvent(this.state)} ></Button>
+          <Button title="Submit" onPress={() => this.submit()} ></Button>
 
 
       </View>

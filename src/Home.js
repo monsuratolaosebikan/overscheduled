@@ -49,11 +49,11 @@ class Home extends Component {
 
   render() {
     return ( 
-      <View> 
+      <View style={{flex: 1}}> 
       { 
-        this.props.view === 'cal' ? (< CalendarScreen />):
+        this.props.view === 'cal' ? (< CalendarScreen navigation={this.props.navigation} />):
         this.props.view === 'overscheduled' ? (<Text>{'this is overscheduled'}</Text>):
-        (<TaskScreen />) 
+        (<TaskScreen navigation={this.props.navigation} />) 
       } 
       </View>
     );
