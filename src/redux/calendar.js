@@ -1,32 +1,26 @@
 import R from 'ramda';
+import moment from 'moment'
 
 // Actions
-const LOAD   = 'my-app/widgets/LOAD';
-const CREATE = 'my-app/widgets/CREATE';
-const UPDATE = 'my-app/widgets/UPDATE';
-const REMOVE = 'my-app/widgets/REMOVE';
+const SET_ACTIVE_DATE = 'cal/set-active-day'
+// const SUBMIT_EVENT = 'events/submit-event'
+
+// Initial State
+const initialState = {
+  active_date: Date.now()
+};
+
 
 // Reducer
-export default function reducer(state = {}, action = {}) {
+export default function reducer(state = initialState, action = {}) {
   switch (action.type) {
-    // do reducer stuff
+    case SET_ACTIVE_DATE: return { ...state, active_date: action.payload.active_date };
+    // case SUBMIT_EVENT: return {...state, [action.payload.id]: action.payload};
     default: return state;
   }
 }
 
 // Action Creators
-export function loadWidgets() {
-  return { type: LOAD };
-}
-
-export function createWidget(widget) {
-  return { type: CREATE, widget };
-}
-
-export function updateWidget(widget) {
-  return { type: UPDATE, widget };
-}
-
-export function removeWidget(widget) {
-  return { type: REMOVE, widget };
+export function setActiveDate(active_date) {
+  return { type: SET_ACTIVE_DATE, payload: { active_date } }
 }

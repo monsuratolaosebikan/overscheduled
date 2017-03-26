@@ -1,5 +1,6 @@
 import R from 'ramda';
 
+
 // Actions
 const EDIT_EVENT = 'events/edit-event'
 const CANCEL_EDIT = 'events/cancel-edit'
@@ -11,20 +12,20 @@ const SUBMIT_EVENT = 'events/submit-event'
 
 // Initial State
 const initialState = {
-  /*234234234: {
+  111: {
     name: 'Blah Deadline',
     time_block: false,
     priority: 1,
     deadline: 'utc',
-    time_est: 400000000000
+    time_est: 400000
   },
-  454545454: {
-    name: 'Blah Block',
-    priority: 2,
-    time_block: true,
-    start: 'utc',
-    end: 'utc'
-  }*/
+  // 454545454: {
+  //   name: 'Blah Block',
+  //   priority: 2,
+  //   time_block: true,
+  //   start: 'utc',
+  //   end: 'utc'
+  // }
 };
 
 

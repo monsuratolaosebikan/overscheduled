@@ -23,7 +23,7 @@ const store = createStore(
   combineReducers({
     app: appReducer,
     events: eventsReducer,
-    calendar: calendarReducer
+    cal: calendarReducer
   }),
   applyMiddleware(
     saveMiddleware,

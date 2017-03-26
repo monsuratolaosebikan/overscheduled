@@ -1,14 +1,9 @@
 import R from 'ramda'
 import React, { Component } from 'react';
 import {  ScrollView, View, TextInput, StyleSheet, Picker, TouchableOpacity} from 'react-native';
+import { FormLabel, FormInput, CheckBox, Button, Text } from 'react-native-elements'
+
 import DateTimePicker from 'react-native-modal-datetime-picker';
-import {
-    FormLabel,
-    FormInput,
-    CheckBox,
-    Button,
-    Text
-} from 'react-native-elements'
 import Icon from 'react-native-vector-icons/MaterialIcons'
 
 import { connect } from 'react-redux'
@@ -132,5 +127,3 @@ class AddScreen extends Component {
     };
 
 })
-
-

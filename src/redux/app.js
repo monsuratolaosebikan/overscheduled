@@ -1,4 +1,5 @@
 import R from 'ramda';
+import moment from 'moment'
 
 function schedulizerStub(events, {past, present, future}) {
   let pastIds = past.map(obj => obj.id);
@@ -18,11 +19,14 @@ const TOGGLE_LIST_OR_CAL = 'app/toggle-list-or-cal'
 const SCHEDULE_COMPLETE = 'app/schedule-complete'
 const SCHEDULE_FAILED = 'app/schedule-failed'
 
+//lastWeek.valueOf()
 // Initial State
+let lastWeek = moment().subtract(7, 'd');
+
 const initialState = {
   view: 'cal',
-  past: [ /*{ id: '234234234', start: 'utc'  }*/ ],
-  present: { name: 'present test',id: '454545454', start: 'utc' },
+  past: [ { id: 111, startTime: lastWeek.toDate(), endTime: lastWeek.add(4, 'h').toDate()  } ],
+  present:  {}, //{ name: 'present test',id: '454545454', startTime: 'utc', endTime: '' },
   future: [],
   unscheduled: []
 };
